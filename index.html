@@ -1,347 +1,387 @@
 <!DOCTYPE html>
 <html class="light" lang="ja">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tartan Task - 今日の3つ</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-primary-fixed": "#410003",
-                        "tertiary-fixed-dim": "#e9c349",
-                        "surface-container-lowest": "#ffffff",
-                        "inverse-on-surface": "#f3f0ea",
-                        "surface-container-high": "#ebe8e2",
-                        "on-tertiary-container": "#4f3d00",
-                        "surface": "#fcf9f3",
-                        "tertiary-container": "#cca730",
-                        "primary-container": "#8b1e1e",
-                        "on-tertiary": "#ffffff",
-                        "on-tertiary-fixed-variant": "#574500",
-                        "on-surface-variant": "#58413f",
-                        "secondary-fixed": "#d0e9d4",
-                        "on-error": "#ffffff",
-                        "secondary-fixed-dim": "#b4cdb8",
-                        "primary-fixed": "#ffdad6",
-                        "background": "#fcf9f3",
-                        "inverse-surface": "#31312d",
-                        "inverse-primary": "#ffb3ad",
-                        "on-tertiary-fixed": "#241a00",
-                        "on-primary-container": "#ff9d95",
-                        "surface-variant": "#e5e2dc",
-                        "outline": "#8b716e",
-                        "secondary-container": "#cde6d1",
-                        "surface-dim": "#dcdad4",
-                        "on-error-container": "#93000a",
-                        "primary": "#6a020a",
-                        "surface-tint": "#aa3531",
-                        "outline-variant": "#dfbfbc",
-                        "secondary": "#4d6453",
-                        "on-secondary-container": "#516857",
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "error": "#ba1a1a",
-                        "on-primary": "#ffffff",
-                        "surface-container": "#f0eee8",
-                        "on-secondary-fixed-variant": "#364c3c",
-                        "on-secondary-fixed": "#0b2013",
-                        "on-background": "#1c1c18",
-                        "primary-fixed-dim": "#ffb3ad",
-                        "surface-container-low": "#f6f3ed",
-                        "on-primary-fixed-variant": "#891c1d",
-                        "surface-container-highest": "#e5e2dc",
-                        "tertiary": "#735c00",
-                        "tertiary-fixed": "#ffe088",
-                        "on-surface": "#1c1c18",
-                        "surface-bright": "#fcf9f3"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "container-padding": "24px",
-                        "unit": "8px",
-                        "element-gap": "16px",
-                        "section-margin": "40px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Lexend"],
-                        "label-caps": ["Space Grotesk"],
-                        "body-lg": ["Lexend"],
-                        "headline-md": ["Lexend"],
-                        "headline-lg": ["Lexend"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
-                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
-                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
-                    }
-                },
-            },
-        }
-    </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .plaid-bg {
-            background-image: 
-                repeating-linear-gradient(45deg, rgba(106, 2, 10, 0.03) 0px, rgba(106, 2, 10, 0.03) 2px, transparent 2px, transparent 10px),
-                repeating-linear-gradient(-45deg, rgba(106, 2, 10, 0.03) 0px, rgba(106, 2, 10, 0.03) 2px, transparent 2px, transparent 10px);
-        }
-        body {
-            min-height: max(884px, 100dvh);
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .animate-spin-icon {
-            animation: spin 1s linear infinite;
-        }
-    </style>
-</head>
-<body class="bg-background text-on-background font-body-md plaid-bg min-h-screen pb-24">
-<!-- TopAppBar Component -->
-<header class="bg-surface dark:bg-inverse-surface shadow-sm docked full-width top-0 z-50 sticky">
-<div class="flex justify-between items-center px-container-padding py-unit w-full max-w-lg mx-auto">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="calendar_today">calendar_today</span>
-<h1 class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim font-bold">Tartan Task</h1>
-</div>
-<button id="sync-btn" class="hover:opacity-80 transition-opacity active:translate-y-0.5 duration-100 flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
-<span id="sync-btn-icon" class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="sync">sync</span>
-</button>
-</div>
-</header>
-<main class="max-w-lg mx-auto px-container-padding mt-unit">
-<!-- Status & Toggle Row -->
-<div class="flex justify-between items-center mb-element-gap h-8">
-<div id="sync-status" class="flex items-center gap-1.5 px-3 py-1 bg-secondary-container rounded-full opacity-0 transition-opacity duration-300">
-<span id="sync-status-icon" class="material-symbols-outlined text-[18px] text-on-secondary-container" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span id="sync-status-text" class="font-label-caps text-label-caps text-on-secondary-container">Synced to Sheets</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant">フォーカスモード</span>
-<button class="w-10 h-5 bg-outline-variant rounded-full relative flex items-center px-0.5 transition-colors">
-<div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
-</button>
-</div>
-</div>
-<!-- Headline -->
-<div class="mb-section-margin">
-<h2 class="font-headline-md text-headline-md text-on-surface font-bold">今日の3つ</h2>
-<div class="w-12 h-1 bg-primary mt-1 rounded-full"></div>
-</div>
-<!-- Task Slots (Three Focused Tasks) -->
-<div class="space-y-element-gap">
-<!-- Task 1 (Active/Focused) -->
-<div id="task-container-1" class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-primary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-primary">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-primary">タスク 1</span>
-<div id="task-check-1" class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary transition-colors bg-white">
-<!-- Empty Checkbox -->
-</div>
-</div>
-<textarea id="task-input-1" class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300" placeholder="ここに入力してください..." rows="2"></textarea>
-</div>
-<!-- Task 2 -->
-<div id="task-container-2" class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-secondary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-transparent">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant">タスク 2</span>
-<div id="task-check-2" class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-secondary transition-colors bg-white">
-</div>
-</div>
-<textarea id="task-input-2" class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300" placeholder="ここに入力してください..." rows="2"></textarea>
-</div>
-<!-- Task 3 -->
-<div id="task-container-3" class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-tertiary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-transparent">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant">タスク 3</span>
-<div id="task-check-3" class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-tertiary transition-colors bg-white">
-</div>
-</div>
-<textarea id="task-input-3" class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300" placeholder="ここに入力してください..." rows="2"></textarea>
-</div>
-</div>
-<!-- Visual Anchor (Motivational Illustration) -->
-<div class="mt-section-margin rounded-xl overflow-hidden shadow-sm aspect-[16/9] relative">
-<img alt="Cozy desk" class="w-full h-full object-cover grayscale-[20%] opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZQOQjYwqRguK8YnRJ4FWKSncGOra8aoio4F56miJU6vS1UflyLfZMj0BNERuquDwdO0fFIndd-c6Y75h_I5cXp1C9VJ2k27ISBD41Udo6xNDxDjnq6NFyLPJemr_pwc3FWJUAtw7gn0_x1APPkwLD9B0jh5gw7Vlycwy5Ogxdu--5AlCxbyUb2rUEzjsquW2tZV3aw_7R_GDY-yEMzIeOA1oZuMciPgwiKlz9GwVdedcvuMPPmBg3Oy5WyTe-yvQMetX51YhY-QQ"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-4">
-<p class="text-white font-body-md italic">「一歩ずつ、確実に。」</p>
-</div>
-</div>
-</main>
-<!-- BottomNavBar Component -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-container-padding pb-unit pt-2 max-w-lg mx-auto bg-surface-container dark:bg-surface-container-high shadow-lg rounded-t-xl">
-<!-- Today Tab (Active) -->
-<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-6 py-2 scale-95 transition-transform duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="potted_plant" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
-<span class="font-label-caps text-label-caps">Today</span>
-</a>
-<!-- Log Tab -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-6 py-2 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="history">history</span>
-<span class="font-label-caps text-label-caps">Log</span>
-</a>
-<!-- Settings Tab -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-6 py-2 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-label-caps text-label-caps">Settings</span>
-</a>
-</nav>
-
-<script>
-  // ==========================================
-  // 【重要】Google Apps ScriptのデプロイURLをここに貼り付けてください
-  // ==========================================
-  const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const syncBtn = document.getElementById('sync-btn');
-    const syncBtnIcon = document.getElementById('sync-btn-icon');
-    const syncStatus = document.getElementById('sync-status');
-    const syncStatusText = document.getElementById('sync-status-text');
-    const syncStatusIcon = document.getElementById('sync-status-icon');
-
-    const tasks = [
-      {
-        input: document.getElementById('task-input-1'),
-        check: document.getElementById('task-check-1'),
-        container: document.getElementById('task-container-1'),
-        completed: false,
-        themeColor: 'bg-primary'
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Tartan Task - 今日の3つ</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Space+Grotesk:wght@700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed": "#410003",
+            "tertiary-fixed-dim": "#e9c349",
+            "surface-container-lowest": "#ffffff",
+            "inverse-on-surface": "#f3f0ea",
+            "surface-container-high": "#ebe8e2",
+            "on-tertiary-container": "#4f3d00",
+            "surface": "#fcf9f3",
+            "tertiary-container": "#cca730",
+            "primary-container": "#8b1e1e",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed-variant": "#574500",
+            "on-surface-variant": "#58413f",
+            "secondary-fixed": "#d0e9d4",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#b4cdb8",
+            "primary-fixed": "#ffdad6",
+            "background": "#fcf9f3",
+            "inverse-surface": "#31312d",
+            "inverse-primary": "#ffb3ad",
+            "on-tertiary-fixed": "#241a00",
+            "on-primary-container": "#ff9d95",
+            "surface-variant": "#e5e2dc",
+            "outline": "#8b716e",
+            "secondary-container": "#cde6d1",
+            "surface-dim": "#dcdad4",
+            "on-error-container": "#93000a",
+            "primary": "#6a020a",
+            "surface-tint": "#aa3531",
+            "outline-variant": "#dfbfbc",
+            "secondary": "#4d6453",
+            "on-secondary-container": "#516857",
+            "error-container": "#ffdad6",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "surface-container": "#f0eee8",
+            "on-secondary-fixed-variant": "#364c3c",
+            "on-secondary-fixed": "#0b2013",
+            "on-background": "#1c1c18",
+            "primary-fixed-dim": "#ffb3ad",
+            "surface-container-low": "#f6f3ed",
+            "on-primary-fixed-variant": "#891c1d",
+            "surface-container-highest": "#e5e2dc",
+            "tertiary": "#735c00",
+            "tertiary-fixed": "#ffe088",
+            "on-surface": "#1c1c18",
+            "surface-bright": "#fcf9f3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "container-padding": "24px",
+            "unit": "8px",
+            "element-gap": "16px",
+            "section-margin": "40px"
+          },
+          "fontFamily": {
+            "body-md": ["Lexend"],
+            "label-caps": ["Space Grotesk"],
+            "body-lg": ["Lexend"],
+            "headline-md": ["Lexend"],
+            "headline-lg": ["Lexend"]
+          },
+          "fontSize": {
+            "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }]
+          }
+        },
       },
-      {
-        input: document.getElementById('task-input-2'),
-        check: document.getElementById('task-check-2'),
-        container: document.getElementById('task-container-2'),
-        completed: false,
-        themeColor: 'bg-secondary'
-      },
-      {
-        input: document.getElementById('task-input-3'),
-        check: document.getElementById('task-check-3'),
-        container: document.getElementById('task-container-3'),
-        completed: false,
-        themeColor: 'bg-tertiary'
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .plaid-bg {
+      background-image:
+        repeating-linear-gradient(45deg, rgba(106, 2, 10, 0.03) 0px, rgba(106, 2, 10, 0.03) 2px, transparent 2px, transparent 10px),
+        repeating-linear-gradient(-45deg, rgba(106, 2, 10, 0.03) 0px, rgba(106, 2, 10, 0.03) 2px, transparent 2px, transparent 10px);
+    }
+
+    body {
+      min-height: max(884px, 100dvh);
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
       }
-    ];
 
-    // Load saved inputs from localStorage (optional UX enhancement)
-    tasks.forEach((task, index) => {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .animate-spin-icon {
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md plaid-bg min-h-screen pb-24">
+  <!-- TopAppBar Component -->
+  <header class="bg-surface dark:bg-inverse-surface shadow-sm docked full-width top-0 z-50 sticky">
+    <div class="flex justify-between items-center px-container-padding py-unit w-full max-w-lg mx-auto">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim"
+          data-icon="calendar_today">calendar_today</span>
+        <h1 class="font-headline-lg text-headline-lg text-primary dark:text-primary-fixed-dim font-bold">Tartan Task
+        </h1>
+      </div>
+      <button id="sync-btn"
+        class="hover:opacity-80 transition-opacity active:translate-y-0.5 duration-100 flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
+        <span id="sync-btn-icon" class="material-symbols-outlined text-primary dark:text-primary-fixed-dim"
+          data-icon="sync">sync</span>
+      </button>
+    </div>
+  </header>
+  <main class="max-w-lg mx-auto px-container-padding mt-unit">
+    <!-- Status & Toggle Row -->
+    <div class="flex justify-between items-center mb-element-gap h-8">
+      <div id="sync-status"
+        class="flex items-center gap-1.5 px-3 py-1 bg-secondary-container rounded-full opacity-0 transition-opacity duration-300">
+        <span id="sync-status-icon" class="material-symbols-outlined text-[18px] text-on-secondary-container"
+          data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        <span id="sync-status-text" class="font-label-caps text-label-caps text-on-secondary-container">Synced to
+          Sheets</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-label-caps text-label-caps text-on-surface-variant">フォーカスモード</span>
+        <button class="w-10 h-5 bg-outline-variant rounded-full relative flex items-center px-0.5 transition-colors">
+          <div class="w-4 h-4 bg-white rounded-full shadow-sm"></div>
+        </button>
+      </div>
+    </div>
+    <!-- Headline -->
+    <div class="mb-section-margin">
+      <h2 class="font-headline-md text-headline-md text-on-surface font-bold">今日の3つ</h2>
+      <div class="w-12 h-1 bg-primary mt-1 rounded-full"></div>
+    </div>
+    <!-- Task Slots (Three Focused Tasks) -->
+    <div class="space-y-element-gap">
+      <!-- Task 1 (Active/Focused) -->
+      <div id="task-container-1"
+        class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-primary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-primary">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-label-caps text-label-caps text-primary">タスク 1</span>
+          <div id="task-check-1"
+            class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary transition-colors bg-white">
+            <!-- Empty Checkbox -->
+          </div>
+        </div>
+        <textarea id="task-input-1"
+          class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300"
+          placeholder="ここに入力してください..." rows="2"></textarea>
+      </div>
+      <!-- Task 2 -->
+      <div id="task-container-2"
+        class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-secondary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-transparent">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-label-caps text-label-caps text-on-surface-variant">タスク 2</span>
+          <div id="task-check-2"
+            class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-secondary transition-colors bg-white">
+          </div>
+        </div>
+        <textarea id="task-input-2"
+          class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300"
+          placeholder="ここに入力してください..." rows="2"></textarea>
+      </div>
+      <!-- Task 3 -->
+      <div id="task-container-3"
+        class="bg-surface-container-low rounded-xl shadow-[0_4px_12px_rgba(77,100,83,0.1)] border-l-[6px] border-tertiary relative overflow-hidden flex flex-col p-5 min-h-[140px] border-y-2 border-r-2 border-transparent">
+        <div class="flex justify-between items-start mb-2">
+          <span class="font-label-caps text-label-caps text-on-surface-variant">タスク 3</span>
+          <div id="task-check-3"
+            class="w-8 h-8 rounded-lg border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-tertiary transition-colors bg-white">
+          </div>
+        </div>
+        <textarea id="task-input-3"
+          class="bg-transparent border-none focus:ring-0 p-0 font-body-lg text-body-lg text-on-surface placeholder-outline-variant resize-none w-full transition-all duration-300"
+          placeholder="ここに入力してください..." rows="2"></textarea>
+      </div>
+    </div>
+    <!-- Visual Anchor (Motivational Illustration) -->
+    <div class="mt-section-margin rounded-xl overflow-hidden shadow-sm aspect-[16/9] relative">
+      <img alt="Cozy desk" class="w-full h-full object-cover grayscale-[20%] opacity-90"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZQOQjYwqRguK8YnRJ4FWKSncGOra8aoio4F56miJU6vS1UflyLfZMj0BNERuquDwdO0fFIndd-c6Y75h_I5cXp1C9VJ2k27ISBD41Udo6xNDxDjnq6NFyLPJemr_pwc3FWJUAtw7gn0_x1APPkwLD9B0jh5gw7Vlycwy5Ogxdu--5AlCxbyUb2rUEzjsquW2tZV3aw_7R_GDY-yEMzIeOA1oZuMciPgwiKlz9GwVdedcvuMPPmBg3Oy5WyTe-yvQMetX51YhY-QQ" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-4">
+        <p class="text-white font-body-md italic">「一歩ずつ、確実に。」</p>
+      </div>
+    </div>
+  </main>
+  <!-- BottomNavBar Component -->
+  <nav
+    class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-container-padding pb-unit pt-2 max-w-lg mx-auto bg-surface-container dark:bg-surface-container-high shadow-lg rounded-t-xl">
+    <!-- Today Tab (Active) -->
+    <a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-xl px-6 py-2 scale-95 transition-transform duration-150"
+      href="#">
+      <span class="material-symbols-outlined" data-icon="potted_plant"
+        style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+      <span class="font-label-caps text-label-caps">Today</span>
+    </a>
+    <!-- Log Tab -->
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-6 py-2 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors"
+      href="#">
+      <span class="material-symbols-outlined" data-icon="history">history</span>
+      <span class="font-label-caps text-label-caps">Log</span>
+    </a>
+    <!-- Settings Tab -->
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-6 py-2 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors"
+      href="#">
+      <span class="material-symbols-outlined" data-icon="settings">settings</span>
+      <span class="font-label-caps text-label-caps">Settings</span>
+    </a>
+  </nav>
+
+  <script>
+    // ==========================================
+    // 【重要】Google Apps ScriptのデプロイURLをここに貼り付けてください
+    // ==========================================
+    const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const syncBtn = document.getElementById('sync-btn');
+      const syncBtnIcon = document.getElementById('sync-btn-icon');
+      const syncStatus = document.getElementById('sync-status');
+      const syncStatusText = document.getElementById('sync-status-text');
+      const syncStatusIcon = document.getElementById('sync-status-icon');
+
+      const tasks = [
+        {
+          input: document.getElementById('task-input-1'),
+          check: document.getElementById('task-check-1'),
+          container: document.getElementById('task-container-1'),
+          completed: false,
+          themeColor: 'bg-primary'
+        },
+        {
+          input: document.getElementById('task-input-2'),
+          check: document.getElementById('task-check-2'),
+          container: document.getElementById('task-container-2'),
+          completed: false,
+          themeColor: 'bg-secondary'
+        },
+        {
+          input: document.getElementById('task-input-3'),
+          check: document.getElementById('task-check-3'),
+          container: document.getElementById('task-container-3'),
+          completed: false,
+          themeColor: 'bg-tertiary'
+        }
+      ];
+
+      // Load saved inputs from localStorage (optional UX enhancement)
+      tasks.forEach((task, index) => {
         const savedText = localStorage.getItem('tartan_task_' + index);
         const savedStatus = localStorage.getItem('tartan_task_status_' + index);
         if (savedText) task.input.value = savedText;
-        
+
         if (savedStatus === 'true') {
-            task.completed = true;
-            updateTaskUI(task, index);
+          task.completed = true;
+          updateTaskUI(task, index);
         }
 
         // Save on input change
         task.input.addEventListener('input', () => {
-            localStorage.setItem('tartan_task_' + index, task.input.value);
+          localStorage.setItem('tartan_task_' + index, task.input.value);
         });
-    });
-
-    // Checkbox toggle logic
-    tasks.forEach((task, index) => {
-      task.check.addEventListener('click', () => {
-        task.completed = !task.completed;
-        localStorage.setItem('tartan_task_status_' + index, task.completed);
-        updateTaskUI(task, index);
       });
-    });
 
-    function updateTaskUI(task, index) {
-      if (task.completed) {
-        task.check.classList.add(task.themeColor, 'border-transparent');
-        task.check.classList.remove('bg-white', 'border-outline-variant');
-        task.check.innerHTML = '<span class="material-symbols-outlined text-white" style="font-size: 20px;">check</span>';
-        task.input.classList.add('line-through', 'opacity-40');
-      } else {
-        task.check.classList.remove(task.themeColor, 'border-transparent');
-        task.check.classList.add('bg-white', 'border-outline-variant');
-        task.check.innerHTML = '';
-        task.input.classList.remove('line-through', 'opacity-40');
+      // Checkbox toggle logic
+      tasks.forEach((task, index) => {
+        task.check.addEventListener('click', () => {
+          task.completed = !task.completed;
+          localStorage.setItem('tartan_task_status_' + index, task.completed);
+          updateTaskUI(task, index);
+        });
+      });
+
+      function updateTaskUI(task, index) {
+        if (task.completed) {
+          task.check.classList.add(task.themeColor, 'border-transparent');
+          task.check.classList.remove('bg-white', 'border-outline-variant');
+          task.check.innerHTML = '<span class="material-symbols-outlined text-white" style="font-size: 20px;">check</span>';
+          task.input.classList.add('line-through', 'opacity-40');
+        } else {
+          task.check.classList.remove(task.themeColor, 'border-transparent');
+          task.check.classList.add('bg-white', 'border-outline-variant');
+          task.check.innerHTML = '';
+          task.input.classList.remove('line-through', 'opacity-40');
+        }
       }
-    }
 
-    syncBtn.addEventListener('click', async () => {
-      if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' || !SCRIPT_URL) {
-        alert('先にGoogle Apps ScriptのURLを index.html 内の SCRIPT_URL に設定してください。');
-        return;
-      }
+      syncBtn.addEventListener('click', async () => {
+        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE' || !SCRIPT_URL) {
+          alert('先にGoogle Apps ScriptのURLを index.html 内の SCRIPT_URL に設定してください。');
+          return;
+        }
 
-      // 1つもタスクが入力されていない場合はアラート
-      const hasContent = tasks.some(t => t.input.value.trim() !== '');
-      if (!hasContent) {
+        // 1つもタスクが入力されていない場合はアラート
+        const hasContent = tasks.some(t => t.input.value.trim() !== '');
+        if (!hasContent) {
           alert('タスクが入力されていません。');
           return;
-      }
+        }
 
-      // Update UI to syncing state
-      syncBtnIcon.classList.add('animate-spin-icon');
-      syncStatusText.textContent = 'Syncing...';
-      syncStatusIcon.textContent = 'sync';
-      syncStatus.classList.remove('opacity-0', 'bg-error-container');
-      syncStatus.classList.add('bg-secondary-container');
-      syncStatusText.classList.remove('text-on-error-container');
-      syncStatusIcon.classList.remove('text-on-error-container');
+        // Update UI to syncing state
+        syncBtnIcon.classList.add('animate-spin-icon');
+        syncStatusText.textContent = 'Syncing...';
+        syncStatusIcon.textContent = 'sync';
+        syncStatus.classList.remove('opacity-0', 'bg-error-container');
+        syncStatus.classList.add('bg-secondary-container');
+        syncStatusText.classList.remove('text-on-error-container');
+        syncStatusIcon.classList.remove('text-on-error-container');
 
-      const dataToSave = tasks.map((task, i) => ({
-        id: i + 1,
-        text: task.input.value,
-        completed: task.completed
-      }));
+        const dataToSave = tasks.map((task, i) => ({
+          id: i + 1,
+          text: task.input.value,
+          completed: task.completed
+        }));
 
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors', // CORSエラーを回避して送信のみ行う
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tasks: dataToSave })
-        });
-        
-        // no-cors does not return a readable response body, assume success
-        setTimeout(() => {
-          syncBtnIcon.classList.remove('animate-spin-icon');
-          syncStatusText.textContent = 'Synced to Sheets';
-          syncStatusIcon.textContent = 'check_circle';
-          
-          // Hide status after 3 seconds
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // CORSエラーを回避して送信のみ行う
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tasks: dataToSave })
+          });
+
+          // no-cors does not return a readable response body, assume success
           setTimeout(() => {
-            syncStatus.classList.add('opacity-0');
-          }, 3000);
-        }, 800);
+            syncBtnIcon.classList.remove('animate-spin-icon');
+            syncStatusText.textContent = 'Synced to Sheets';
+            syncStatusIcon.textContent = 'check_circle';
 
-      } catch (error) {
-        console.error('Error:', error);
-        syncBtnIcon.classList.remove('animate-spin-icon');
-        syncStatus.classList.remove('bg-secondary-container');
-        syncStatus.classList.add('bg-error-container');
-        syncStatusText.classList.add('text-on-error-container');
-        syncStatusIcon.classList.add('text-on-error-container');
-        syncStatusText.textContent = 'Error syncing';
-        syncStatusIcon.textContent = 'error';
-      }
+            // Hide status after 3 seconds
+            setTimeout(() => {
+              syncStatus.classList.add('opacity-0');
+            }, 3000);
+          }, 800);
+
+        } catch (error) {
+          console.error('Error:', error);
+          syncBtnIcon.classList.remove('animate-spin-icon');
+          syncStatus.classList.remove('bg-secondary-container');
+          syncStatus.classList.add('bg-error-container');
+          syncStatusText.classList.add('text-on-error-container');
+          syncStatusIcon.classList.add('text-on-error-container');
+          syncStatusText.textContent = 'Error syncing';
+          syncStatusIcon.textContent = 'error';
+        }
+      });
     });
-  });
-</script>
+  </script>
 </body>
+
 </html>
