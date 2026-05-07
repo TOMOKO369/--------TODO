@@ -1,3 +1,8 @@
+function doGet(e) {
+  // ブラウザで直接URLを開いた場合（GETリクエスト）の対応
+  return ContentService.createTextOutput("TODOアプリとの通信用URLです。index.htmlのSCRIPT_URLにこのURLを貼り付けてください。");
+}
+
 function doPost(e) {
   // アクセスされたスプレッドシートの現在アクティブなシートを取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
