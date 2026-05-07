@@ -348,13 +348,13 @@
         }));
 
         try {
+          // POSTリクエスト（CORS回避のために x-www-form-urlencoded を使用）
+          const params = new URLSearchParams();
+          params.append('tasks', JSON.stringify(dataToSave));
+
           await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // CORSエラーを回避して送信のみ行う
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ tasks: dataToSave })
+            body: params
           });
 
           // no-cors does not return a readable response body, assume success
