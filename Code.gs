@@ -7,9 +7,8 @@ function doPost(e) {
   // アクセスされたスプレッドシートの現在アクティブなシートを取得
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   
-  // POSTリクエストで送られてきたJSONデータをパース
-  var data = JSON.parse(e.postData.contents);
-  var tasks = data.tasks;
+  // URLSearchParams で送られたデータをパース
+  var tasks = JSON.parse(e.parameter.tasks);
   
   // 記録する現在時刻
   var timestamp = new Date();
@@ -27,7 +26,7 @@ function doPost(e) {
     }
   });
 
-  // 成功レスポンスを返す（JSON形式）
+  // CORS対応のためにヘッダーを追加して返す
   return ContentService.createTextOutput(JSON.stringify({ "status": "success" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
